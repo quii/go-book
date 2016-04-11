@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"strings"
 	"testing"
 )
@@ -8,7 +9,7 @@ import (
 var bigArgs []string
 
 func init() {
-	for i := 0; i < 1000; i++ {
+	for i := 0; i < 10000; i++ {
 		bigArgs = append(bigArgs, "x")
 	}
 }
@@ -48,5 +49,25 @@ func BenchmarkConcatenate(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		loopConcatenate(bigArgs)
+	}
+}
+
+// Exercise 1.3 extra credit?
+//
+func BenchmarkBuffer(b *testing.B) {
+	bufferConcat := func(args []string) string {
+		var buffer bytes.Buffer
+		sep := ""
+		for _, arg := range args {
+			buffer.WriteString(sep)
+			buffer.WriteString(arg)
+			sep = " "
+		}
+		return buffer.String()
+	}
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		bufferConcat(bigArgs)
 	}
 }
