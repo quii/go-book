@@ -6,14 +6,6 @@ import (
 	"strings"
 )
 
-var bigArgs []string
-
-func init() {
-	for i := 0; i < 1000; i++ {
-		bigArgs = append(bigArgs, "x")
-	}
-}
-
 func main() {
 	exercise1()
 	exercise2()

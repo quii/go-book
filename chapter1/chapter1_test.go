@@ -1,10 +1,17 @@
 package main
 
 import (
-	"fmt"
 	"strings"
 	"testing"
 )
+
+var bigArgs []string
+
+func init() {
+	for i := 0; i < 1000; i++ {
+		bigArgs = append(bigArgs, "x")
+	}
+}
 
 /*
 Chriss-Air:chapter1 quii$ go test -bench .
@@ -15,8 +22,8 @@ BenchmarkConcatenate-4	    3000	    509015 ns/op
 ok  	github.com/quii/go-book/chapter1	3.972s
 */
 
+// Exercise 1.3
 func BenchmarkJoin(b *testing.B) {
-	fmt.Println("Exercise 1.3 (a)")
 	joinConcatenate := func(args []string) string {
 		return strings.Join(args, " ")
 	}
@@ -27,9 +34,8 @@ func BenchmarkJoin(b *testing.B) {
 	}
 }
 
+// Exercise 1.3
 func BenchmarkConcatenate(b *testing.B) {
-	fmt.Println("Exercise 1.3 (b)")
-
 	loopConcatenate := func(args []string) string {
 		s, sep := "", ""
 		for _, arg := range args {
