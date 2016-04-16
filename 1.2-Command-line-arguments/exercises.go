@@ -12,7 +12,7 @@ func main() {
 }
 
 func exercise1() {
-	fmt.Println("Exercise 1.1, Modify the echo program to print os.Args[0]")
+	fmt.Println("Exercise 1.1, Modify the echo program to also print os.Args[0]")
 	fmt.Println(strings.Join(os.Args, " "))
 }
 
