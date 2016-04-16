@@ -9,6 +9,12 @@ Then you can  `input.Scan()` to read the next line, returning `true` if there is
 
 Both `os.Stdin` and the return type of `os.Open(filepath)` are `os.File` and as such can be used by `bufio.Scanner`.
 
-*However*, if you look at the [docs for `bufio.Scanner`](https://golang.org/pkg/bufio/#NewScanner) then you can see that it takes an io.Reader which is much easier to create for testing. 
+*However*, if you look at the [docs for `bufio.Scanner`](https://golang.org/pkg/bufio/#NewScanner) then you can see that it takes an io.Reader which is much easier to create for testing.
 
 A `map` is a reference to the underlying structure so you can safely pass it to functions without it being copied.
+
+## Exercise notes
+
+*Given* `File 1` has duplicated lines that appear in `File 2`
+*When* I run the program
+*Then* It prints `Duplicate line | Count | File 1, File 2`

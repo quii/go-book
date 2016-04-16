@@ -1,27 +1,34 @@
 package main
 
 import (
+	"io"
 	"strings"
 	"testing"
 )
 
-func TestItCountsLinesOfTest(t *testing.T) {
-	text := `
+func TestItCountsDuplicatesInFiles(t *testing.T) {
+	file1 := `
 cats
 dogs
 cats
   `
-	input := strings.NewReader(text)
+	file2 := `
+cats
+penguins
+cats
+  `
 
-	results := make(map[string]int)
+	files := make(map[string]io.Reader)
+	files["file1"] = strings.NewReader(file1)
+	files["file2"] = strings.NewReader(file2)
 
-	countLines(input, results)
+	result := countDuplicates(files)
 
-	if results["cats"] != 2 {
-		t.Error("Should be 2 cats")
+	if result["cats"].count != 4 {
+		t.Error("There should be 4 cats counted across files but got", result["cats"])
 	}
 
-	if results["dogs"] != 1 {
-		t.Error("Should be 1 dog")
+	if len(result["cats"].fileNames) != 2 {
+		t.Error("Cats should appear in 2 files")
 	}
 }
