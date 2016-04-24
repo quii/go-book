@@ -22,6 +22,8 @@ func streamURL(url string, out io.Writer){
 		os.Exit(1)
 	}
 
+	fmt.Fprintf(out, "Status: %d\n", resp.StatusCode)
+
 	_, err = io.Copy(out, resp.Body)
 
 	resp.Body.Close()

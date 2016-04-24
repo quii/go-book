@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"strings"
 )
 
 const testResponseString = "Hello, world"
@@ -20,8 +21,12 @@ func TestItCanStreamURLs(t *testing.T) {
 	buffer := &bytes.Buffer{}
 	streamURL(testServer.URL, buffer)
 
-	if buffer.String() != testResponseString {
-		t.Error("Server response was not written to buffer, got ", buffer.String())
+	if !strings.Contains(buffer.String(), testResponseString) {
+		t.Error("Server response was not written to buffer correctly, got ", buffer.String())
+	}
+
+	if !strings.Contains(buffer.String(), "200"){
+		t.Error("Expected the status code 200 to be included in the output, got", buffer.String())
 	}
 }
 
