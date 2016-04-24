@@ -5,11 +5,12 @@ import (
 	"net/http"
 	"fmt"
 	"os"
+	"strings"
 )
 
 func main(){
 	for _, url := range os.Args[1:]{
-		streamURL(url, os.Stdout)
+		streamURL(urlFixer(url), os.Stdout)
 	}
 }
 
@@ -28,4 +29,12 @@ func streamURL(url string, out io.Writer){
 	if err != nil{
 		fmt.Fprintf(os.Stderr, "Problem writing response body to stdout %v\n", err)
 	}
+}
+
+func urlFixer(url string) string {
+	prefix := "http://"
+	if strings.HasPrefix(url, prefix){
+		return url
+	}
+	return prefix + url
 }
