@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
-	"testing"
 	"strings"
+	"testing"
 )
 
 const testResponseString = "Hello, world"
@@ -25,7 +25,7 @@ func TestItCanStreamURLs(t *testing.T) {
 		t.Error("Server response was not written to buffer correctly, got ", buffer.String())
 	}
 
-	if !strings.Contains(buffer.String(), "200"){
+	if !strings.Contains(buffer.String(), "200") {
 		t.Error("Expected the status code 200 to be included in the output, got", buffer.String())
 	}
 }
@@ -37,7 +37,7 @@ func TestItPreappendsHTTPWhenNeeded(t *testing.T) {
 	}
 
 	fixedURL = urlFixer("google.com")
-	if fixedURL != "http://google.com"{
+	if fixedURL != "http://google.com" {
 		t.Error("Expect URL to have http:// added but got", fixedURL)
 	}
 }
