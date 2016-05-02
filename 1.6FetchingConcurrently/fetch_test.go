@@ -1,18 +1,18 @@
 package main
 
 import (
-	"testing"
-	"fmt"
-	"net/http/httptest"
-	"net/http"
 	"bytes"
+	"fmt"
+	"net/http"
+	"net/http/httptest"
 	"strings"
+	"testing"
 )
 
 const testResponse1 = "Hello world"
-const testResponse2= "Hello, butts"
+const testResponse2 = "Hello, butts"
 
-func makeTestServer(response string) *httptest.Server{
+func makeTestServer(response string) *httptest.Server {
 	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, response)
 	}))
@@ -33,12 +33,11 @@ func TestItFetchesURLs(t *testing.T) {
 
 	fetchFast(urls, responses)
 
-	if !strings.Contains(responses.String(), expectedResponse1report){
+	if !strings.Contains(responses.String(), expectedResponse1report) {
 		t.Error("Expected to see report", expectedResponse1report, "in", responses.String())
 	}
 
-	if !strings.Contains(responses.String(), expectedResponse2report){
+	if !strings.Contains(responses.String(), expectedResponse2report) {
 		t.Error("Expected to see report", expectedResponse2report, "in", responses.String())
 	}
-
 }

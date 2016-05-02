@@ -11,7 +11,6 @@ import (
 
 func main() {
 
-
 	results, err := os.OpenFile("results.txt", os.O_RDWR|os.O_APPEND|os.O_CREATE, 0666)
 	defer results.Close()
 
@@ -24,7 +23,7 @@ func main() {
 
 }
 
-func fetchFast(urls []string, out io.Writer){
+func fetchFast(urls []string, out io.Writer) {
 	start := time.Now()
 	ch := make(chan string)
 
