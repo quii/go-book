@@ -10,8 +10,7 @@ import (
 )
 
 func main() {
-	start := time.Now()
-	ch := make(chan string)
+
 
 	results, err := os.OpenFile("results.txt", os.O_RDWR|os.O_APPEND|os.O_CREATE, 0666)
 	defer results.Close()
@@ -21,19 +20,21 @@ func main() {
 		os.Exit(1)
 	}
 
-	for _, url := range os.Args[1:] {
+	fetchFast(os.Args[1:], results)
+
+}
+
+func fetchFast(urls []string, out io.Writer){
+	start := time.Now()
+	ch := make(chan string)
+
+	for _, url := range urls {
 		go fetch(url, ch)
 	}
 
 	for range os.Args[1:] {
-		_, err := results.WriteString(<-ch)
-
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "Couldn't write results to results.txt %v", err)
-			os.Exit(1)
-		}
-
-		fmt.Fprintf(results, "%.2fs elapsed\n", time.Since(start).Seconds())
+		fmt.Fprint(out, <-ch)
+		fmt.Fprintf(out, "%.2fs elapsed\n", time.Since(start).Seconds())
 	}
 }
 
@@ -42,7 +43,7 @@ func fetch(url string, ch chan<- string) {
 	resp, err := http.Get(url)
 
 	if err != nil {
-		ch <- fmt.Sprint(err)
+		ch <- fmt.Sprintf("Problem fetching %s : %v", url, err)
 		return
 	}
 
@@ -54,6 +55,9 @@ func fetch(url string, ch chan<- string) {
 	}
 
 	secs := time.Since(start).Seconds()
-	ch <- fmt.Sprintf("%.2fs %7d %s", secs, nbytes, url)
+	sizePart := fmt.Sprintf(sizeFormat, nbytes, url)
+	ch <- fmt.Sprintf("%.2fs %s", secs, sizePart)
 
 }
+
+const sizeFormat = "%7d %s"
