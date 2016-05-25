@@ -1,1 +1,1 @@
-1.79s   11389 http://quii.co.uk1.79s elapsed
+1.67s   11389 http://quii.co.uk1.67s elapsed
