@@ -31,7 +31,7 @@ func fetchFast(urls []string, out io.Writer) {
 		go fetch(url, ch)
 	}
 
-	for range os.Args[1:] {
+	for i:=0; i<len(urls); i++ {
 		fmt.Fprint(out, <-ch)
 		fmt.Fprintf(out, "%.2fs elapsed\n", time.Since(start).Seconds())
 	}
